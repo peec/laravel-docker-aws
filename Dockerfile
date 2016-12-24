@@ -76,8 +76,6 @@ RUN curl -o clusterclient-aws-php7.zip https://s3.amazonaws.com/elasticache-down
      cp artifact/amazon-elasticache-cluster-client.so "$(php -r 'echo ini_get("extension_dir");')" && \
      docker-php-ext-enable amazon-elasticache-cluster-client
 
-RUN mkdir -p /var/docker-resources/web
-COPY resources/web/* /var/docker-resources/web/
 
 
 CMD ["/usr/local/bin/start-laravel"]
