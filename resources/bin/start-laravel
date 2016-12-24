@@ -1,0 +1,113 @@
+#!/bin/bash
+set -e
+
+# Tell health-status.php that we are currently running.
+chown -R www-data:www-data /var/docker-resources/web/
+su -c "touch /tmp/laravel-start-in-progress" -s /bin/sh www-data
+
+
+[ ! -z "${PHP_MEMORY_LIMIT}" ]         && sed -i "s/PHP_MEMORY_LIMIT/${PHP_MEMORY_LIMIT}/" /usr/local/etc/php/php.ini
+[ ! -z "${PHP_SENDMAIL_PATH}" ]        && sed -i "s#PHP_SENDMAIL_PATH#${PHP_SENDMAIL_PATH}#" /usr/local/etc/php/php.ini
+[ ! -z "${PHP_PORT}" ]                 && sed -i "s/PHP_PORT/${PHP_PORT}/" /usr/local/etc/php-fpm.conf
+[ ! -z "${PHP_PM_MAX_CHILDREN}" ]      && sed -i "s/PHP_PM_MAX_CHILDREN/${PHP_PM_MAX_CHILDREN}/" /usr/local/etc/php-fpm.conf
+[ ! -z "${PHP_PM_START_SERVERS}" ]     && sed -i "s/PHP_PM_START_SERVERS/${PHP_PM_START_SERVERS}/" /usr/local/etc/php-fpm.conf
+[ ! -z "${PHP_PM_MIN_SPARE_SERVERS}" ] && sed -i "s/PHP_PM_MIN_SPARE_SERVERS/${PHP_PM_MIN_SPARE_SERVERS}/" /usr/local/etc/php-fpm.conf
+[ ! -z "${PHP_PM_MAX_SPARE_SERVERS}" ] && sed -i "s/PHP_PM_MAX_SPARE_SERVERS/${PHP_PM_MAX_SPARE_SERVERS}/" /usr/local/etc/php-fpm.conf
+[ ! -z "${APP_MAGE_MODE}" ]            && sed -i "s/APP_MAGE_MODE/${APP_MAGE_MODE}/" /usr/local/etc/php-fpm.conf
+
+sed -i "s#GITHUB_OAUTH_TOKEN#${GITHUB_OAUTH_TOKEN}#" /home/composer/auth.json
+
+
+# Print all the variables so it's possible to debug ..
+
+echo "GITHUB_OAUTH_TOKEN: ${GITHUB_OAUTH_TOKEN}"
+
+
+echo "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
+echo "AWS_SECRET_ACCESS_KEY: xxxxxxx"
+echo "AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}"
+
+
+
+
+echo "APP_KEY: ${APP_KEY}"
+
+
+
+# Make sure this line comes last, otherwise find/replace will replace above vars
+[ ! -z "${PHP_PM}" ]                   && sed -i "s/PHP_PM/${PHP_PM}/" /usr/local/etc/php-fpm.conf
+
+
+chown -R www-data:www-data /src
+chown -R www-data:www-data /home/composer
+
+su -c "composer install --optimize-autoloader --prefer-dist" -s /bin/sh www-data
+
+if [ ! -f /src/composer.lock ]; then
+    echo "Could not find /src/composer.lock. Did you map Laravel root folder (containing composer.json) to docker container /src folder? Example: docker run .. -v /var/www/html/laravelproject:/src"
+    exit 1
+fi
+
+# Support EFS storage..
+if [ -d /laravelappstorage ]; then
+
+   if [ -d /src/storage/app ] && [ ! -L /src/storage/app ]; then
+       echo "Using filesystem as media storage, removing laravel's media storage folder and using symlink to /laravelappstorage"
+
+       rm -rf /src/storage/app
+       ln -s /laravelappstorage /src/storage/app
+       chown -R www-data:www-data /src/storage/app
+       chown -R www-data:www-data /laravelappstorage
+   fi
+
+
+fi
+
+
+chmod +x /usr/local/bin/setup-laravel-cron
+chmod +x /usr/local/bin/create-laravel-env-file.php
+chmod +x /src/artisan
+
+
+
+
+# Cron jobs.
+echo "Setting up cron jobs for laravel."
+su -c "/usr/local/bin/setup-laravel-cron" -s /bin/sh www-data
+
+
+
+# Create .env based on dynamic resources allocated by .ebextensions scripts.
+echo "Creating .env file for dynamically allocated AWS resources..."
+su -c 'APP_DIR=/src APP_KEY="${APP_KEY}" MEMCACHED_PERSISTENT_ID="${MEMCACHED_PERSISTENT_ID}" DB_CONNECTION="${DB_CONNECTION}" \
+        RDS_USERNAME="${RDS_USERNAME}" RDS_PASSWORD="${RDS_PASSWORD}" RDS_HOSTNAME="${RDS_HOSTNAME}" RDS_PORT="${RDS_PORT}" RDS_DB_NAME="${RDS_DB_NAME}" \
+        AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+        /usr/local/bin/create-laravel-env-file.php' -s /bin/sh www-data
+
+
+
+
+# Migrate database.
+su -c "/src/artisan migrate" -s /bin/sh www-data
+
+
+
+echo "Correcting permissions"
+chown -R www-data:www-data /src
+chmod -R 0777 /src
+
+
+
+rm /tmp/laravel-start-in-progress
+
+# Only start php-fpm if successful ...
+if [ -f /src/composer.lock ]; then
+   echo "Starting the cron service"
+   /usr/sbin/cron
+
+   echo "Starting php-fpm"
+   /usr/local/sbin/php-fpm
+
+else
+    echo "ERROR: could not find /src/composer.lock in laravel php container.... Did you mount laravel root dir as a volume to /src? You should..."
+fi
