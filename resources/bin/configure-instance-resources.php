@@ -39,6 +39,12 @@ $Outputs = array(
     'MediaBucketName' => null,
     'MediaAccessKey' => null,
     'MediaSecretKey' => null,
+
+
+    'LaravelQueueURL' => null,
+    'LaravelQueueARN' => null,
+    'LaravelQueueName' => null
+
 );
 
 

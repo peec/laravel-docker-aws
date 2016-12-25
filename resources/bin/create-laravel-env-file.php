@@ -50,13 +50,36 @@ $SES_SECRET = getenv('SES_SECRET') ? getenv('SES_SECRET') : getenv('AWS_SECRET_A
 $SES_REGION = getenv('SES_REGION') ? getenv('SES_REGION') : getenv('AWS_DEFAULT_REGION');
 
 
+//// SQS Queue
 
+$QUEUE_DRIVER = getenv('QUEUE_DRIVER') ? getenv('QUEUE_DRIVER') : 'sqs';
+$SQS_KEY = getenv('SQS_KEY') ? getenv('SQS_KEY') : getenv('AWS_ACCESS_KEY_ID');
+$SES_SECRET = getenv('SQS_SECRET') ? getenv('SQS_SECRET') : getenv('AWS_SECRET_ACCESS_KEY');
+$SES_REGION = getenv('SQS_REGION') ? getenv('SQS_REGION') : getenv('AWS_DEFAULT_REGION');
+$SQS_QUEUE = getenv('SQS_QUEUE') ? getenv('SQS_QUEUE') : $Outputs['LaravelQueueName'];
+$SQS_PREFIX = getenv('SQS_PREFIX') ? getenv('SQS_PREFIX') : null;
 
+if (!$SQS_PREFIX && $Outputs['LaravelQueueURL']) {
+    $laravelQueueUrl = $Outputs['LaravelQueueURL'];
+    // Remove queue name so we only get the prefix.
+    $SQS_PREFIX = substr($laravelQueueUrl, 0,strrpos($laravelQueueUrl, '/'));
+}
 
 
 
 
 $envMap = array();
+
+/* Queue */
+
+
+$envMap['QUEUE_DRIVER'] = $QUEUE_DRIVER;
+$envMap['SQS_KEY'] = $SQS_KEY;
+$envMap['SQS_SECRET'] = $SES_SECRET;
+$envMap['SQS_REGION'] = $SES_REGION;
+$envMap['SQS_QUEUE'] = $SQS_QUEUE;
+$envMap['SQS_PREFIX'] = $SQS_PREFIX;
+
 
 /* CDN Resource*/
 
