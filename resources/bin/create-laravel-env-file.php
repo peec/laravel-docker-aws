@@ -25,13 +25,22 @@ $MEMCACHED_USERNAME =  getenv('MEMCACHED_USERNAME') ;
 $MEMCACHED_PASSWORD =  getenv('MEMCACHED_PASSWORD') ;
 
 
-$CACHE_DRIVER = getenv('CACHE_DRIVER') ? getenv('CACHE_DRIVER') : 'memcached';
-$DB_CONNECTION = getenv('DB_CONNECTION') ? getenv('DB_CONNECTION') : 'mysql';
-$APP_KEY = getenv('APP_KEY');
-
 $CDN = getenv('CDN') ? getenv('CDN') : $Outputs['SiteCDNDomainName'];
 
 
+//// Laravel Cache
+$CACHE_DRIVER = getenv('CACHE_DRIVER') ? getenv('CACHE_DRIVER') : 'memcached';
+
+//// Laravel database driver
+$DB_CONNECTION = getenv('DB_CONNECTION') ? getenv('DB_CONNECTION') : 'mysql';
+
+//// Laravel app key
+$APP_KEY = getenv('APP_KEY');
+
+
+/// Laravel session
+$SESSION_DRIVER = getenv('SESSION_DRIVER') ? getenv('SESSION_DRIVER') : 'memcached';
+$SESSION_CACHE_STORE = getenv('SESSION_CACHE_STORE') ? getenv('SESSION_CACHE_STORE') : getenv('CACHE_DRIVER');
 
 $envMap = array();
 
@@ -41,10 +50,12 @@ if ($CDN) {
     $envMap['CDN'] = $CDN;
 }
 
+/* Cache Configuration*/
+$envMap['CACHE_DRIVER'] = $CACHE_DRIVER;
+
 /* Memcached Resource */
 
 if ($MEMCACHED_HOST && $MEMCACHED_PORT) {
-    $envMap['CACHE_DRIVER'] = $CACHE_DRIVER;
     $envMap['MEMCACHED_PERSISTENT_ID'] = $MEMCACHED_PERSISTENT_ID;
     $envMap['MEMCACHED_USERNAME'] = $MEMCACHED_USERNAME;
     $envMap['MEMCACHED_PASSWORD'] = $MEMCACHED_PASSWORD;
@@ -52,6 +63,13 @@ if ($MEMCACHED_HOST && $MEMCACHED_PORT) {
     $envMap['MEMCACHED_PORT'] = $MEMCACHED_PORT;
 
 }
+
+
+/* Session Configuration */
+$envMap['SESSION_DRIVER'] = $SESSION_DRIVER;
+$envMap['SESSION_CACHE_STORE'] = $SESSION_CACHE_STORE;
+
+
 
 /* RDS Resource */
 

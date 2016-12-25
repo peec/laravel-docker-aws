@@ -49,6 +49,12 @@ MEMCACHED_HOST
 MEMCACHED_PORT
 
 
+# Session
+
+SESSION_CACHE_STORE
+
+
+
 
 
 ```
