@@ -50,6 +50,15 @@ ENV AWS_SECRET_ACCESS_KEY ""
 ENV AWS_DEFAULT_REGION "eu-west-1"
 
 
+# S3 for storage
+ENV MEDIA_S3_ACCESS_KEY ""
+ENV MEDIA_S3_SECRET_KEY ""
+ENV MEDIA_S3_BUCKET ""
+ENV MEDIA_S3_REGION "eu-west-1"
+ENV MEDIA_S3_SECURE_URL ""
+ENV MEDIA_S3_WEBSITE_URL ""
+
+
 # LARAVEL Specifics, rest of envs should be defined in beanstalk aws config panel.
 
 ENV APP_KEY "base64:JIiitjB44NCn3ymIb0c+ogKLl4J4i7sLC81LfrogM7s"

@@ -2,7 +2,7 @@
 // Configures the generated resources with environment variables
 // Such as:
 // - Elasticache
-
+// - S3 for media
 
 // For this to work you need to modify the beanstalk role in AWS IAM
 // Add this ( IAM -> Roles -> aws-elasticbeanstalk-ec2-role -> Inline Policies -> Create Role Policy -> Custom Policy ) and here is what you add:
@@ -29,7 +29,16 @@ $Outputs = array(
     'ElastiCacheAddress' => null,
 
 
-    'SiteCDNDomainName' => null
+    'SiteCDNDomainName' => null,
+
+
+
+    'MediaWebsiteURL' => null,
+    'MediaSecureURL' => null,
+    'MediaDomainName' => null,
+    'MediaBucketName' => null,
+    'MediaAccessKey' => null,
+    'MediaSecretKey' => null,
 );
 
 
@@ -63,8 +72,15 @@ if ($ec2InstanceId && $ec2Region) {
                     // Keys like:
                     // ElastiCachePort
                     // ElastiCacheAddress
+                    // MediaWebsiteURL
                     foreach ($stack['Outputs'] as $output) {
                         $Outputs[$output['OutputKey']] = $output['OutputValue'];
+
+
+                        if ($output['OutputKey'] == 'MediaDomainName') {
+                            $exp = explode('.', $output['OutputValue']);
+                            $Outputs['MediaBucketName'] = $exp[0]; // mystack-mybucket-kdwwxmddtr2g.s3.amazonaws.com becomes  "mystack-mybucket-kdwwxmddtr2g" which we want..
+                        }
                     }
                     echo "Stack outputs found:\n";
                     print_r($Outputs);
