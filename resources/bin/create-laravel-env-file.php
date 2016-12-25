@@ -70,4 +70,4 @@ foreach ($envMap as $key => $value) {
 }
 
 
-file_put_contents($envFile, getenv('APP_DIR') . '/.env');
+file_put_contents(getenv('APP_DIR') . '/.env', $envFile);
