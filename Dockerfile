@@ -56,7 +56,7 @@ ENV COMPOSER_HOME /home/composer
 COPY resources/conf/php.ini /usr/local/etc/php/
 COPY resources/conf/php-fpm.conf /usr/local/etc/
 COPY resources/bin/* /usr/local/bin/
-COPY resources/conf/laravel-worker-sqs.conf /etc/supervisor/conf.d/
+COPY resources/conf/laravel-worker.conf /etc/supervisor/conf.d/
 
 RUN mkdir -p /home/composer
 COPY resources/conf/auth.json /home/composer/
