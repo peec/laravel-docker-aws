@@ -2,4 +2,4 @@
 WWW_DIR=/src
 
 
-echo "* * * * * /usr/local/bin/php /src/artisan schedule:run >> $WWW_DIR/var/storage/logs/cron.log" | crontab -
+echo "* * * * * /usr/local/bin/php /src/artisan schedule:run >> $WWW_DIR/storage/logs/cron.log" | crontab -
