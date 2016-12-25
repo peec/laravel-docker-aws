@@ -30,6 +30,7 @@ MEDIA_S3_WEBSITE_URL
 # Laravel specifics
 APP_KEY
 DB_CONNECTION  (default: mysql)
+CACHE_DRIVER   (default: memcached)
 
 
 # RDS

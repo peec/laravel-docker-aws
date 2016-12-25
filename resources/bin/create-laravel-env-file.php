@@ -18,30 +18,45 @@ $MEDIA_S3_WEBSITE_URL = getenv('MEDIA_S3_WEBSITE_URL') ? getenv('MEDIA_S3_WEBSIT
 $MEDIA_S3_SECURE_URL = getenv('MEDIA_S3_SECURE_URL') ? getenv('MEDIA_S3_SECURE_URL') : $Outputs['MediaSecureURL'];
 
 
+$MEMCACHED_HOST = getenv('MEMCACHED_HOST') ? getenv('MEMCACHED_HOST') : $Outputs['ElastiCacheAddress'];
+$MEMCACHED_PORT = getenv('MEMCACHED_PORT') ? getenv('MEMCACHED_PORT') : $Outputs['ElastiCachePort'];
+$MEMCACHED_PERSISTENT_ID = getenv('MEMCACHED_PERSISTENT_ID') ? getenv('MEMCACHED_PERSISTENT_ID') : 'default';
+$MEMCACHED_USERNAME =  getenv('MEMCACHED_USERNAME') ;
+$MEMCACHED_PASSWORD =  getenv('MEMCACHED_PASSWORD') ;
+
+
+$CACHE_DRIVER = getenv('CACHE_DRIVER') ? getenv('CACHE_DRIVER') : 'memcached';
+$DB_CONNECTION = getenv('DB_CONNECTION') ? getenv('DB_CONNECTION') : 'mysql';
+$APP_KEY = getenv('APP_KEY');
+
+$CDN = getenv('CDN') ? getenv('CDN') : $Outputs['SiteCDNDomainName'];
 
 
 
 $envMap = array();
 
+/* CDN Resource*/
 
-if ($Outputs['SiteCDNDomainName']) {
-    $envMap['CDN'] = $Outputs['SiteCDNDomainName'];
+if ($CDN) {
+    $envMap['CDN'] = $CDN;
 }
 
+/* Memcached Resource */
 
-if ($Outputs['ElastiCacheAddress'] && $Outputs['ElastiCachePort']) {
-    $envMap['CACHE_DRIVER'] = 'memcached';
-    $envMap['MEMCACHED_PERSISTENT_ID'] = getenv('MEMCACHED_PERSISTENT_ID') ? getenv('MEMCACHED_PERSISTENT_ID') : 'default';
-    $envMap['MEMCACHED_USERNAME'] = getenv('MEMCACHED_USERNAME') ;
-    $envMap['MEMCACHED_PASSWORD'] = getenv('MEMCACHED_PASSWORD') ;
-    $envMap['MEMCACHED_HOST'] = getenv('MEMCACHED_HOST') ? getenv('MEMCACHED_HOST') : $Outputs['ElastiCacheAddress'];
-    $envMap['MEMCACHED_PORT'] = getenv('MEMCACHED_PORT') ? getenv('MEMCACHED_PORT') : $Outputs['ElastiCachePort'];
+if ($MEMCACHED_HOST && $MEMCACHED_PORT) {
+    $envMap['CACHE_DRIVER'] = $CACHE_DRIVER;
+    $envMap['MEMCACHED_PERSISTENT_ID'] = $MEMCACHED_PERSISTENT_ID;
+    $envMap['MEMCACHED_USERNAME'] = $MEMCACHED_USERNAME;
+    $envMap['MEMCACHED_PASSWORD'] = $MEMCACHED_PASSWORD;
+    $envMap['MEMCACHED_HOST'] = $MEMCACHED_HOST;
+    $envMap['MEMCACHED_PORT'] = $MEMCACHED_PORT;
 
 }
 
+/* RDS Resource */
 
 if ($RDS_USERNAME) {
-    $envMap['DB_CONNECTION'] = getenv('DB_CONNECTION') ? getenv('DB_CONNECTION') : 'mysql';
+    $envMap['DB_CONNECTION'] = $DB_CONNECTION;
     $envMap['DB_HOST'] = $RDS_HOSTNAME;
     $envMap['DB_PORT'] = $RDS_PORT;
     $envMap['DB_DATABASE'] = $RDS_DB_NAME;
@@ -49,6 +64,8 @@ if ($RDS_USERNAME) {
     $envMap['DB_PASSWORD'] = $RDS_PASSWORD;
 
 }
+
+/* S3 Resource */
 
 if ($MEDIA_S3_ACCESS_KEY) {
     $envMap['MEDIA_S3_ACCESS_KEY'] = $MEDIA_S3_ACCESS_KEY;
@@ -59,7 +76,9 @@ if ($MEDIA_S3_ACCESS_KEY) {
     $envMap['MEDIA_S3_SECURE_URL'] = $MEDIA_S3_SECURE_URL;
 }
 
-$envMap['APP_KEY'] = getenv('APP_KEY');
+/* APP_KEY for laravel */
+
+$envMap['APP_KEY'] = $APP_KEY;
 
 
 
