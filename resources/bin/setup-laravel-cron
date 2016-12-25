@@ -1,4 +1,5 @@
 #!/bin/bash
 WWW_DIR=/src
 
+
 echo "* * * * * /usr/local/bin/php /src/artisan schedule:run >> $WWW_DIR/var/storage/logs/cron.log" | crontab -

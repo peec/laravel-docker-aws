@@ -36,29 +36,18 @@ echo "APP_KEY: ${APP_KEY}"
 chown -R www-data:www-data /src
 chown -R www-data:www-data /home/composer
 
-su -c "composer install --optimize-autoloader --prefer-dist" -s /bin/sh www-data
 
+
+echo "Running composer"
+su -c "composer install --optimize-autoloader --prefer-dist" -s /bin/sh www-data
 if [ ! -f /src/composer.lock ]; then
     echo "Could not find /src/composer.lock. Did you map Laravel root folder (containing composer.json) to docker container /src folder? Example: docker run .. -v /var/www/html/laravelproject:/src"
     exit 1
 fi
 
-# Support EFS storage..
-if [ -d /laravelappstorage ]; then
-
-   if [ -d /src/storage/app ] && [ ! -L /src/storage/app ]; then
-       echo "Using filesystem as media storage, removing laravel's media storage folder and using symlink to /laravelappstorage"
-
-       rm -rf /src/storage/app
-       ln -s /laravelappstorage /src/storage/app
-       chown -R www-data:www-data /src/storage/app
-       chown -R www-data:www-data /laravelappstorage
-   fi
 
 
-fi
-
-
+echo "Making docker-laravel bin files executable."
 chmod +x /usr/local/bin/setup-laravel-cron
 chmod +x /usr/local/bin/create-laravel-env-file.php
 chmod +x /src/artisan
