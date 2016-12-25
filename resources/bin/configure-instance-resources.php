@@ -43,7 +43,9 @@ $Outputs = array(
 
     'LaravelQueueURL' => null,
     'LaravelQueueARN' => null,
-    'LaravelQueueName' => null
+    'LaravelQueueName' => null,
+    'SQSAccessKey' => null,
+    'SQSSecretKey' => null,
 
 );
 

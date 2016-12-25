@@ -53,8 +53,17 @@ $SES_REGION = getenv('SES_REGION') ? getenv('SES_REGION') : getenv('AWS_DEFAULT_
 //// SQS Queue
 
 $QUEUE_DRIVER = getenv('QUEUE_DRIVER') ? getenv('QUEUE_DRIVER') : 'sqs';
-$SQS_KEY = getenv('SQS_KEY') ? getenv('SQS_KEY') : getenv('AWS_ACCESS_KEY_ID');
-$SES_SECRET = getenv('SQS_SECRET') ? getenv('SQS_SECRET') : getenv('AWS_SECRET_ACCESS_KEY');
+
+$SQS_KEY = getenv('SQS_KEY') ? getenv('SQS_KEY') : $Outputs['SQSAccessKey'];
+if (!$SQS_KEY) {
+    $SQS_KEY = getenv('AWS_ACCESS_KEY_ID');
+}
+
+$SES_SECRET = getenv('SQS_SECRET') ? getenv('SQS_SECRET') : $Outputs['SQSSecretKey'];
+if (!$SES_SECRET) {
+    $SES_SECRET = getenv('AWS_SECRET_ACCESS_KEY');
+}
+
 $SES_REGION = getenv('SQS_REGION') ? getenv('SQS_REGION') : getenv('AWS_DEFAULT_REGION');
 $SQS_QUEUE = getenv('SQS_QUEUE') ? getenv('SQS_QUEUE') : $Outputs['LaravelQueueName'];
 $SQS_PREFIX = getenv('SQS_PREFIX') ? getenv('SQS_PREFIX') : null;
