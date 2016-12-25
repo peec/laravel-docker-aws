@@ -72,7 +72,12 @@ su -c 'APP_DIR=/src APP_KEY="${APP_KEY}" MEMCACHED_PERSISTENT_ID="${MEMCACHED_PE
 
 
 # Migrate database.
-su -c "/src/artisan migrate" -s /bin/sh www-data
+su -c "/src/artisan down" -s /bin/sh www-data
+su -c "/src/artisan storage:link" -s /bin/sh www-data
+su -c "/src/artisan migrate --force" -s /bin/sh www-data
+su -c "/src/artisan optimize" -s /bin/sh www-data
+su -c "/src/artisan up" -s /bin/sh www-data
+
 
 
 
