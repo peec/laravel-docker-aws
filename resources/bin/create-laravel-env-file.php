@@ -13,7 +13,7 @@ $RDS_DB_NAME = getenv('RDS_DB_NAME');
 $MEDIA_S3_ACCESS_KEY = getenv('MEDIA_S3_ACCESS_KEY') ? getenv('MEDIA_S3_ACCESS_KEY') : $Outputs['MediaAccessKey'];
 $MEDIA_S3_SECRET_KEY = getenv('MEDIA_S3_SECRET_KEY') ? getenv('MEDIA_S3_SECRET_KEY') : $Outputs['MediaSecretKey'];
 $MEDIA_S3_BUCKET = getenv('MEDIA_S3_BUCKET') ? getenv('MEDIA_S3_BUCKET') : $Outputs['MediaBucketName'];
-$MEDIA_S3_REGION = getenv('MEDIA_S3_REGION') ? getenv('MEDIA_S3_REGION') : 'eu-west-1';
+$MEDIA_S3_REGION = getenv('MEDIA_S3_REGION') ? getenv('MEDIA_S3_REGION') : getenv('AWS_DEFAULT_REGION');
 $MEDIA_S3_WEBSITE_URL = getenv('MEDIA_S3_WEBSITE_URL') ? getenv('MEDIA_S3_WEBSITE_URL') : $Outputs['MediaWebsiteURL'];
 $MEDIA_S3_SECURE_URL = getenv('MEDIA_S3_SECURE_URL') ? getenv('MEDIA_S3_SECURE_URL') : $Outputs['MediaSecureURL'];
 
@@ -42,6 +42,20 @@ $APP_KEY = getenv('APP_KEY');
 $SESSION_DRIVER = getenv('SESSION_DRIVER') ? getenv('SESSION_DRIVER') : 'memcached';
 $SESSION_CACHE_STORE = getenv('SESSION_CACHE_STORE') ? getenv('SESSION_CACHE_STORE') : getenv('CACHE_DRIVER');
 
+
+/// Laravel Mail
+$MAIL_DRIVER = getenv('MAIL_DRIVER') ? getenv('MAIL_DRIVER') : 'ses';
+$SES_KEY = getenv('SES_KEY') ? getenv('SES_KEY') : getenv('AWS_ACCESS_KEY_ID');
+$SES_SECRET = getenv('SES_SECRET') ? getenv('SES_SECRET') : getenv('AWS_SECRET_ACCESS_KEY');
+$SES_REGION = getenv('SES_REGION') ? getenv('SES_REGION') : getenv('AWS_DEFAULT_REGION');
+
+
+
+
+
+
+
+
 $envMap = array();
 
 /* CDN Resource*/
@@ -55,14 +69,11 @@ $envMap['CACHE_DRIVER'] = $CACHE_DRIVER;
 
 /* Memcached Resource */
 
-if ($MEMCACHED_HOST && $MEMCACHED_PORT) {
-    $envMap['MEMCACHED_PERSISTENT_ID'] = $MEMCACHED_PERSISTENT_ID;
-    $envMap['MEMCACHED_USERNAME'] = $MEMCACHED_USERNAME;
-    $envMap['MEMCACHED_PASSWORD'] = $MEMCACHED_PASSWORD;
-    $envMap['MEMCACHED_HOST'] = $MEMCACHED_HOST;
-    $envMap['MEMCACHED_PORT'] = $MEMCACHED_PORT;
-
-}
+$envMap['MEMCACHED_PERSISTENT_ID'] = $MEMCACHED_PERSISTENT_ID;
+$envMap['MEMCACHED_USERNAME'] = $MEMCACHED_USERNAME;
+$envMap['MEMCACHED_PASSWORD'] = $MEMCACHED_PASSWORD;
+$envMap['MEMCACHED_HOST'] = $MEMCACHED_HOST;
+$envMap['MEMCACHED_PORT'] = $MEMCACHED_PORT;
 
 
 /* Session Configuration */
@@ -73,8 +84,9 @@ $envMap['SESSION_CACHE_STORE'] = $SESSION_CACHE_STORE;
 
 /* RDS Resource */
 
+$envMap['DB_CONNECTION'] = $DB_CONNECTION;
+
 if ($RDS_USERNAME) {
-    $envMap['DB_CONNECTION'] = $DB_CONNECTION;
     $envMap['DB_HOST'] = $RDS_HOSTNAME;
     $envMap['DB_PORT'] = $RDS_PORT;
     $envMap['DB_DATABASE'] = $RDS_DB_NAME;
@@ -93,6 +105,14 @@ if ($MEDIA_S3_ACCESS_KEY) {
     $envMap['MEDIA_S3_WEBSITE_URL'] = $MEDIA_S3_WEBSITE_URL;
     $envMap['MEDIA_S3_SECURE_URL'] = $MEDIA_S3_SECURE_URL;
 }
+
+/* SES Configuration */
+$envMap['MAIL_DRIVER'] = $MAIL_DRIVER;
+$envMap['SES_KEY'] = $SES_KEY;
+$envMap['SES_SECRET'] = $SES_SECRET;
+$envMap['SES_REGION'] = $SES_REGION;
+
+
 
 /* APP_KEY for laravel */
 
