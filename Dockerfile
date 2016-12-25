@@ -12,7 +12,8 @@ RUN apt-get update \
     libmcrypt-dev \
     libpng12-dev \
     libxslt1-dev \
-    python-pip
+    python-pip \
+    supervisor
 
 
 RUN pip install awscli
@@ -48,6 +49,7 @@ ENV COMPOSER_HOME /home/composer
 COPY resources/conf/php.ini /usr/local/etc/php/
 COPY resources/conf/php-fpm.conf /usr/local/etc/
 COPY resources/bin/* /usr/local/bin/
+COPY resources/conf/laravel-worker-sqs.conf /etc/supervisor/conf.d/
 
 RUN mkdir -p /home/composer
 COPY resources/conf/auth.json /home/composer/

@@ -86,6 +86,12 @@ if [ -f /src/composer.lock ]; then
    echo "Starting the cron service"
    /usr/sbin/cron
 
+   echo "Starting supervisord and sqs worker"
+   /usr/bin/supervisorctl reread
+   /usr/bin/supervisorctl update
+   /usr/bin/supervisorctl start laravel-worker-sqs:*
+
+
    echo "Starting php-fpm"
    /usr/local/sbin/php-fpm
 
