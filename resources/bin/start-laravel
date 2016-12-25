@@ -17,6 +17,12 @@ su -c "touch /tmp/laravel-start-in-progress" -s /bin/sh www-data
 [ ! -z "${PHP_PM_MAX_SPARE_SERVERS}" ] && sed -i "s/PHP_PM_MAX_SPARE_SERVERS/${PHP_PM_MAX_SPARE_SERVERS}/" /usr/local/etc/php-fpm.conf
 [ ! -z "${APP_MAGE_MODE}" ]            && sed -i "s/APP_MAGE_MODE/${APP_MAGE_MODE}/" /usr/local/etc/php-fpm.conf
 
+[ ! -z "${LARAVEL_QUEUE_WORKER_CONNECTION}" ]         && sed -i "s/LARAVEL_QUEUE_WORKER_CONNECTION/${LARAVEL_QUEUE_WORKER_CONNECTION}/" /etc/supervisor/conf.d/laravel-worker.conf
+[ ! -z "${LARAVEL_QUEUE_WORKER_SLEEP}" ]         && sed -i "s/LARAVEL_QUEUE_WORKER_SLEEP/${LARAVEL_QUEUE_WORKER_SLEEP}/" /etc/supervisor/conf.d/laravel-worker.conf
+[ ! -z "${LARAVEL_QUEUE_WORKER_TRIES}" ]        && sed -i "s#LARAVEL_QUEUE_WORKER_TRIES#${LARAVEL_QUEUE_WORKER_TRIES}#" /etc/supervisor/conf.d/laravel-worker.conf
+[ ! -z "${LARAVEL_QUEUE_WORKER_NUMPROCS}" ]        && sed -i "s#LARAVEL_QUEUE_WORKER_NUMPROCS#${LARAVEL_QUEUE_WORKER_NUMPROCS}#" /etc/supervisor/conf.d/laravel-worker.conf
+
+
 sed -i "s#GITHUB_OAUTH_TOKEN#${GITHUB_OAUTH_TOKEN}#" /home/composer/auth.json
 
 
@@ -86,10 +92,10 @@ if [ -f /src/composer.lock ]; then
    echo "Starting the cron service"
    /usr/sbin/cron
 
-   echo "Starting supervisord and sqs worker"
+   echo "Starting supervisord and laravel worker"
    /usr/bin/supervisorctl reread
    /usr/bin/supervisorctl update
-   /usr/bin/supervisorctl start laravel-worker-sqs:*
+   /usr/bin/supervisorctl start laravel-worker:*
 
 
    echo "Starting php-fpm"
