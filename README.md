@@ -10,6 +10,9 @@ This docker container can be configured with the following environment variables
 
 ```
 
+CDN
+
+
 # Github
 GITHUB_OAUTH_TOKEN
 
@@ -19,6 +22,7 @@ AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY
 AWS_DEFAULT_REGION
 
+
 # S3
 MEDIA_S3_ACCESS_KEY
 MEDIA_S3_SECRET_KEY
@@ -27,9 +31,16 @@ MEDIA_S3_REGION
 MEDIA_S3_SECURE_URL
 MEDIA_S3_WEBSITE_URL
 
-# Laravel specifics
+
+# App secret
 APP_KEY
+
+
+# Database
 DB_CONNECTION  (default: mysql)
+
+
+# Cache
 CACHE_DRIVER   (default: memcached)
 
 
@@ -52,8 +63,23 @@ MEMCACHED_PORT
 # Session
 
 SESSION_CACHE_STORE
+SESSION_DRIVER
 
 
+# Mail
+MAIL_DRIVER
+SES_KEY
+SES_SECRET
+SES_REGION
+
+
+# Queue
+QUEUE_DRIVER
+SQS_KEY
+SQS_SECRET
+SQS_REGION
+SQS_QUEUE
+SQS_PREFIX
 
 
 
