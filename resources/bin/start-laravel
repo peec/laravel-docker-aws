@@ -21,14 +21,6 @@ sed -i "s#GITHUB_OAUTH_TOKEN#${GITHUB_OAUTH_TOKEN}#" /home/composer/auth.json
 
 
 
-echo "GITHUB_OAUTH_TOKEN: ${GITHUB_OAUTH_TOKEN}"
-echo "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
-echo "AWS_SECRET_ACCESS_KEY: xxxxxxx"
-echo "AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}"
-echo "APP_KEY: ${APP_KEY}"
-
-
-
 # Make sure this line comes last, otherwise find/replace will replace above vars
 [ ! -z "${PHP_PM}" ]                   && sed -i "s/PHP_PM/${PHP_PM}/" /usr/local/etc/php-fpm.conf
 
