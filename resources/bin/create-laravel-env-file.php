@@ -31,7 +31,7 @@ if ($Outputs['SiteCDNDomainName']) {
 
 if ($Outputs['ElastiCacheAddress'] && $Outputs['ElastiCachePort']) {
     $envMap['CACHE_DRIVER'] = 'memcached';
-    $envMap['MEMCACHED_PERSISTENT_ID'] = getenv('MEMCACHED_PERSISTENT_ID');
+    $envMap['MEMCACHED_PERSISTENT_ID'] = getenv('MEMCACHED_PERSISTENT_ID') ? getenv('MEMCACHED_PERSISTENT_ID') : 'default';
     $envMap['MEMCACHED_USERNAME'] = '';
     $envMap['MEMCACHED_PASSWORD'] = '';
     $envMap['MEMCACHED_HOST'] = $Outputs['ElastiCacheAddress'];
@@ -58,6 +58,8 @@ if ($MEDIA_S3_ACCESS_KEY) {
     $envMap['MEDIA_S3_WEBSITE_URL'] = $MEDIA_S3_WEBSITE_URL;
     $envMap['MEDIA_S3_SECURE_URL'] = $MEDIA_S3_SECURE_URL;
 }
+
+$envMap['APP_KEY'] = getenv('APP_KEY');
 
 
 

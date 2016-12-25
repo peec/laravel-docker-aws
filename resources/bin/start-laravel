@@ -1,8 +1,10 @@
 #!/bin/bash
 set -e
 
+echo "Starting laravel deployment"
+
+
 # Tell health-status.php that we are currently running.
-chown -R www-data:www-data /var/docker-resources/web/
 su -c "touch /tmp/laravel-start-in-progress" -s /bin/sh www-data
 
 
@@ -18,18 +20,11 @@ su -c "touch /tmp/laravel-start-in-progress" -s /bin/sh www-data
 sed -i "s#GITHUB_OAUTH_TOKEN#${GITHUB_OAUTH_TOKEN}#" /home/composer/auth.json
 
 
-# Print all the variables so it's possible to debug ..
 
 echo "GITHUB_OAUTH_TOKEN: ${GITHUB_OAUTH_TOKEN}"
-
-
 echo "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
 echo "AWS_SECRET_ACCESS_KEY: xxxxxxx"
 echo "AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}"
-
-
-
-
 echo "APP_KEY: ${APP_KEY}"
 
 
