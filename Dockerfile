@@ -53,6 +53,12 @@ ENV COMPOSER_HOME /home/composer
 
 
 
+ENV APP_GIT_REPOSTIRY ""
+ENV APP_GIT_BRANCH "master"
+
+
+
+
 COPY resources/conf/php.ini /usr/local/etc/php/
 COPY resources/conf/php-fpm.conf /usr/local/etc/
 COPY resources/bin/* /usr/local/bin/
