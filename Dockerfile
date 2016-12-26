@@ -57,6 +57,7 @@ ENV APP_GIT_REPOSTIRY ""
 ENV APP_GIT_BRANCH "master"
 
 
+RUN mkdir -p /root/.ssh
 
 
 COPY resources/conf/php.ini /usr/local/etc/php/
