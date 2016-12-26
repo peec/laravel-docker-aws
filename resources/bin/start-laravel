@@ -32,9 +32,9 @@ sed -i "s#GITHUB_OAUTH_TOKEN#${GITHUB_OAUTH_TOKEN}#" /home/composer/auth.json
 
 # deployment via git repostiry url
 # ssh keys are needed to be mapped as a volume.
-if [ ! -z "${APP_GIT_REPOSTIRY}"]; then
+if [ ! -z "${APP_GIT_REPOSITORY}"]; then
    if [ ! -f /src/composer.json ]; then
-       git clone -b "${APP_GIT_BRANCH}" "${APP_GIT_REPOSTIRY}" /src
+       git clone -b "${APP_GIT_BRANCH}" "${APP_GIT_REPOSITORY}" /src
    fi
    git pull origin "${APP_GIT_BRANCH}"
 fi

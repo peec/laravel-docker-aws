@@ -93,5 +93,10 @@ LARAVEL_QUEUE_WORKER_TIMEOUT (default: 60)
 
 
 
+# Git build
+
+APP_GIT_REPOSITORY
+APP_GIT_BRANCH
+
 
 ```
