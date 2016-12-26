@@ -34,8 +34,10 @@ sed -i "s#GITHUB_OAUTH_TOKEN#${GITHUB_OAUTH_TOKEN}#" /home/composer/auth.json
 # ssh keys are needed to be mapped as a volume.
 if [ ! -z "${APP_GIT_REPOSITORY}"]; then
    if [ ! -f /src/composer.json ]; then
+       echo "Cloning branch ${APP_GIT_BRANCH} from ${APP_GIT_REPOSITORY}"
        git clone -b "${APP_GIT_BRANCH}" "${APP_GIT_REPOSITORY}" /src
    fi
+   echo "Updating to latest version of ${APP_GIT_BRANCH}"
    git pull origin "${APP_GIT_BRANCH}"
 fi
 
