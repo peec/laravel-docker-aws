@@ -24,6 +24,9 @@ $MEMCACHED_PERSISTENT_ID = getenv('MEMCACHED_PERSISTENT_ID') ? getenv('MEMCACHED
 $MEMCACHED_USERNAME =  getenv('MEMCACHED_USERNAME') ;
 $MEMCACHED_PASSWORD =  getenv('MEMCACHED_PASSWORD') ;
 
+$GITHUB_OAUTH_TOKEN = getenv('GITHUB_OAUTH_TOKEN');
+
+
 
 $CDN = getenv('CDN') ? getenv('CDN') : $Outputs['SiteCDNDomainName'];
 
@@ -150,7 +153,18 @@ $envMap['SES_REGION'] = $SES_REGION;
 
 $envMap['APP_KEY'] = $APP_KEY;
 
+if ($GITHUB_OAUTH_TOKEN) {
+    $envMap['GITHUB_OAUTH_TOKEN'] = $GITHUB_OAUTH_TOKEN;
+}
 
+$envMap['APP_ENV'] = getenv('APP_ENV');
+$envMap['APP_DEBUG'] = getenv('APP_DEBUG');
+$envMap['APP_URL'] = getenv('APP_URL');
+$envMap['AWS_ACCESS_KEY_ID'] = getenv('AWS_ACCESS_KEY_ID');
+$envMap['AWS_SECRET_ACCESS_KEY'] = getenv('AWS_SECRET_ACCESS_KEY');
+$envMap['AWS_DEFAULT_REGION'] = getenv('AWS_DEFAULT_REGION');
+$envMap['LARAVEL_QUEUE_WORKER_TIMEOUT'] = getenv('LARAVEL_QUEUE_WORKER_TIMEOUT');
+$envMap['IS_ON_AWS'] = getenv('IS_ON_AWS');
 
 
 $envFile = "";
