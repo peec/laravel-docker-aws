@@ -20,6 +20,7 @@ su -c "touch /tmp/laravel-start-in-progress" -s /bin/sh www-data
 [ ! -z "${LARAVEL_QUEUE_WORKER_SLEEP}" ]         && sed -i "s/LARAVEL_QUEUE_WORKER_SLEEP/${LARAVEL_QUEUE_WORKER_SLEEP}/" /etc/supervisor/conf.d/laravel-worker.conf
 [ ! -z "${LARAVEL_QUEUE_WORKER_TRIES}" ]        && sed -i "s#LARAVEL_QUEUE_WORKER_TRIES#${LARAVEL_QUEUE_WORKER_TRIES}#" /etc/supervisor/conf.d/laravel-worker.conf
 [ ! -z "${LARAVEL_QUEUE_WORKER_NUMPROCS}" ]        && sed -i "s#LARAVEL_QUEUE_WORKER_NUMPROCS#${LARAVEL_QUEUE_WORKER_NUMPROCS}#" /etc/supervisor/conf.d/laravel-worker.conf
+[ ! -z "${APP_ENV}" ]        && sed -i "s#APP_ENV#${APP_ENV}#" /etc/supervisor/conf.d/laravel-worker.conf
 
 
 sed -i "s#GITHUB_OAUTH_TOKEN#${GITHUB_OAUTH_TOKEN}#" /home/composer/auth.json

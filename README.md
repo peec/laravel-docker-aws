@@ -33,6 +33,7 @@ MEDIA_S3_WEBSITE_URL
 
 
 # App secret
+APP_ENV
 APP_KEY
 
 
