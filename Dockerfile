@@ -16,8 +16,11 @@ RUN apt-get update \
     supervisor
 
 
+# AWS cli is nice to have on aws, think: PaaS.
 RUN pip install awscli
 
+# Eb cli is nice to have on aws, think: PaaS.
+RUN pip install --upgrade awsebcli
 
 RUN docker-php-ext-configure \
   gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
