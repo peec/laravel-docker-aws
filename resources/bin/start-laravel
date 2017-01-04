@@ -72,10 +72,7 @@ su -c "/usr/local/bin/setup-laravel-cron" -s /bin/sh www-data
 
 # Create .env based on dynamic resources allocated by .ebextensions scripts.
 echo "Creating .env file for dynamically allocated AWS resources..."
-su -c 'APP_DIR=/src APP_KEY="${APP_KEY}" MEMCACHED_PERSISTENT_ID="${MEMCACHED_PERSISTENT_ID}" DB_CONNECTION="${DB_CONNECTION}" \
-        RDS_USERNAME="${RDS_USERNAME}" RDS_PASSWORD="${RDS_PASSWORD}" RDS_HOSTNAME="${RDS_HOSTNAME}" RDS_PORT="${RDS_PORT}" RDS_DB_NAME="${RDS_DB_NAME}" \
-        AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-        /usr/local/bin/create-laravel-env-file.php' -s /bin/sh www-data
+su -c '/usr/local/bin/create-laravel-env-file.php' -s /bin/sh www-data
 
 
 

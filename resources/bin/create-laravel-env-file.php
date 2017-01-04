@@ -18,13 +18,11 @@ $MEDIA_S3_WEBSITE_URL = getenv('MEDIA_S3_WEBSITE_URL') ? getenv('MEDIA_S3_WEBSIT
 $MEDIA_S3_SECURE_URL = getenv('MEDIA_S3_SECURE_URL') ? getenv('MEDIA_S3_SECURE_URL') : $Outputs['MediaSecureURL'];
 
 
-$MEMCACHED_HOST = getenv('MEMCACHED_HOST') ? getenv('MEMCACHED_HOST') : $Outputs['ElastiCacheAddress'];
-$MEMCACHED_PORT = getenv('MEMCACHED_PORT') ? getenv('MEMCACHED_PORT') : $Outputs['ElastiCachePort'];
-$MEMCACHED_PERSISTENT_ID = getenv('MEMCACHED_PERSISTENT_ID') ? getenv('MEMCACHED_PERSISTENT_ID') : 'default';
-$MEMCACHED_USERNAME =  getenv('MEMCACHED_USERNAME') ;
-$MEMCACHED_PASSWORD =  getenv('MEMCACHED_PASSWORD') ;
+$REDIS_HOST = getenv('REDIS_HOST') ? getenv('REDIS_HOST') : $Outputs['ElastiCacheAddress'];
+$REDIS_PORT = getenv('REDIS_PORT') ? getenv('REDIS_PORT') : $Outputs['ElastiCachePort'];
+$REDIS_DATABASE = getenv('REDIS_DATABASE')  ? getenv('REDIS_DATABASE') : 0;
 
-$GITHUB_OAUTH_TOKEN = getenv('GITHUB_OAUTH_TOKEN');
+    $GITHUB_OAUTH_TOKEN = getenv('GITHUB_OAUTH_TOKEN');
 
 
 
@@ -32,7 +30,7 @@ $CDN = getenv('CDN') ? getenv('CDN') : $Outputs['SiteCDNDomainName'];
 
 
 //// Laravel Cache
-$CACHE_DRIVER = getenv('CACHE_DRIVER') ? getenv('CACHE_DRIVER') : 'memcached';
+$CACHE_DRIVER = getenv('CACHE_DRIVER') ? getenv('CACHE_DRIVER') : 'redis';
 
 //// Laravel database driver
 $DB_CONNECTION = getenv('DB_CONNECTION') ? getenv('DB_CONNECTION') : 'mysql';
@@ -42,8 +40,8 @@ $APP_KEY = getenv('APP_KEY');
 
 
 /// Laravel session
-$SESSION_DRIVER = getenv('SESSION_DRIVER') ? getenv('SESSION_DRIVER') : 'memcached';
-$SESSION_CACHE_STORE = getenv('SESSION_CACHE_STORE') ? getenv('SESSION_CACHE_STORE') : getenv('CACHE_DRIVER');
+$SESSION_DRIVER = getenv('SESSION_DRIVER') ? getenv('SESSION_DRIVER') : 'redis';
+$SESSION_CONNECTION = getenv('SESSION_CONNECTION') ? getenv('SESSION_CONNECTION') : 'default';
 
 
 /// Laravel Mail
@@ -102,14 +100,6 @@ if ($CDN) {
 /* Cache Configuration*/
 $envMap['CACHE_DRIVER'] = $CACHE_DRIVER;
 
-/* Memcached Resource */
-
-$envMap['MEMCACHED_PERSISTENT_ID'] = $MEMCACHED_PERSISTENT_ID;
-$envMap['MEMCACHED_USERNAME'] = $MEMCACHED_USERNAME;
-$envMap['MEMCACHED_PASSWORD'] = $MEMCACHED_PASSWORD;
-$envMap['MEMCACHED_HOST'] = $MEMCACHED_HOST;
-$envMap['MEMCACHED_PORT'] = $MEMCACHED_PORT;
-
 
 /* Session Configuration */
 $envMap['SESSION_DRIVER'] = $SESSION_DRIVER;
@@ -165,6 +155,13 @@ $envMap['AWS_SECRET_ACCESS_KEY'] = getenv('AWS_SECRET_ACCESS_KEY');
 $envMap['AWS_DEFAULT_REGION'] = getenv('AWS_DEFAULT_REGION');
 $envMap['LARAVEL_QUEUE_WORKER_TIMEOUT'] = getenv('LARAVEL_QUEUE_WORKER_TIMEOUT');
 $envMap['IS_ON_AWS'] = getenv('IS_ON_AWS');
+
+$envMap['REDIS_HOST'] = $REDIS_HOST;
+$envMap['REDIS_PORT'] = $REDIS_PORT;
+$envMap['REDIS_DATABASE'] = $REDIS_DATABASE;
+$envMap['SESSION_CONNECTION'] = $SESSION_CONNECTION;
+
+
 
 
 $envFile = "";
