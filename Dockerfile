@@ -36,6 +36,7 @@ RUN docker-php-ext-install \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.2.0
 
 
+ENV APP_DIR "/src"
 ENV PHPREDIS_VERSION 3.0.0
 ENV PHP_MEMORY_LIMIT 1G
 ENV PHP_PORT 9000
