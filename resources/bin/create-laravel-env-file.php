@@ -103,8 +103,7 @@ $envMap['CACHE_DRIVER'] = $CACHE_DRIVER;
 
 /* Session Configuration */
 $envMap['SESSION_DRIVER'] = $SESSION_DRIVER;
-$envMap['SESSION_CACHE_STORE'] = $SESSION_CACHE_STORE;
-
+$envMap['SESSION_CONNECTION'] = $SESSION_CONNECTION;
 
 
 /* RDS Resource */
@@ -159,7 +158,6 @@ $envMap['IS_ON_AWS'] = getenv('IS_ON_AWS');
 $envMap['REDIS_HOST'] = $REDIS_HOST;
 $envMap['REDIS_PORT'] = $REDIS_PORT;
 $envMap['REDIS_DATABASE'] = $REDIS_DATABASE;
-$envMap['SESSION_CONNECTION'] = $SESSION_CONNECTION;
 
 
 
