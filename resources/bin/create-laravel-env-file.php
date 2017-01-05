@@ -20,9 +20,15 @@ $envToWrite = [
 
 
 
-    'MEDIA_S3_REGION',
-    'MEDIA_S3_ACCESS_KEY',
-    'MEDIA_S3_SECRET_KEY',
+    'MEDIA_S3_REGION' => function () {
+        return fallback('MEDIA_S3_REGION', 'AWS_DEFAULT_REGION');
+    },
+    'MEDIA_S3_ACCESS_KEY' => function () {
+        return fallback('MEDIA_S3_ACCESS_KEY', 'AWS_ACCESS_KEY_ID');
+    },
+    'MEDIA_S3_SECRET_KEY' => function () {
+        return fallback('MEDIA_S3_SECRET_KEY', 'AWS_SECRET_ACCESS_KEY');
+    },
     'MEDIA_S3_DOMAIN_NAME',
 
     // Laravel requires s3 bucket without slash.
@@ -54,14 +60,26 @@ $envToWrite = [
 
 
     'MAIL_DRIVER',
-    'SES_KEY',
-    'SES_SECRET',
-    'SES_REGION',
+    'SES_KEY' => function () {
+        return fallback('SES_KEY', 'AWS_ACCESS_KEY_ID');
+    },
+    'SES_SECRET' => function () {
+        return fallback('SES_KEY', 'AWS_SECRET_ACCESS_KEY');
+    },
+    'SES_REGION' => function () {
+        return fallback('SES_REGION', 'AWS_DEFAULT_REGION');
+    },
 
     'QUEUE_DRIVER',
-    'SQS_KEY',
-    'SQS_SECRET',
-    'SQS_REGION',
+    'SQS_KEY' => function () {
+        return fallback('SQS_KEY', 'AWS_SECRET_ACCESS_KEY');
+    },
+    'SQS_SECRET' => function () {
+        return fallback('SQS_SECRET', 'AWS_SECRET_ACCESS_KEY');
+    },
+    'SQS_REGION' => function () {
+        return fallback('SQS_REGION', 'AWS_DEFAULT_REGION');
+    },
     'SQS_QUEUE',
 
     // Laravel requires only SQS prefix ( not queue name also. ).
@@ -85,6 +103,10 @@ $envToWrite = [
 
 ];
 
+
+function fallback ($env, $fallbackEnv) {
+    return getenv($env) ? getenv($env) : getenv($fallbackEnv);
+}
 
 
 
