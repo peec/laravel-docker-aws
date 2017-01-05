@@ -30,12 +30,7 @@ $envToWrite = [
         return fallback('MEDIA_S3_SECRET_KEY', 'AWS_SECRET_ACCESS_KEY');
     },
     'MEDIA_S3_DOMAIN_NAME',
-
-    // Laravel requires s3 bucket without slash.
-    'MEDIA_S3_BUCKET' => function () {
-        $domain = getenv('MEDIA_S3_DOMAIN_NAME');
-        return substr($domain, 0, strrpos($domain, '/'));
-    },
+    'MEDIA_S3_BUCKET',
     'MEDIA_S3_WEBSITE_URL',
     'MEDIA_S3_SECURE_URL',
 
