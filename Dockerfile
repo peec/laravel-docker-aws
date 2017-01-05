@@ -12,6 +12,7 @@ RUN apt-get update \
     libpng12-dev \
     libxslt1-dev \
     python-pip \
+    redis-tools \
     supervisor
 
 
