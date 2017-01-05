@@ -114,10 +114,9 @@ function fallback ($env, $fallbackEnv) {
 /// Build the .env file.
 ///
 
-$envMap = array();
 
 $envFile = "";
-foreach ($envMap as $key => $value) {
+foreach ($envToWrite as $key => $value) {
     if (is_callable($value)) {
         $value = call_user_func($value);
     } else {
