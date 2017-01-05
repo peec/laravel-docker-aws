@@ -63,6 +63,7 @@ ENV APP_GIT_REPOSITORY ""
 ENV APP_GIT_BRANCH "master"
 
 
+
 RUN mkdir -p /root/.ssh
 
 
@@ -88,5 +89,6 @@ RUN mkdir -p /usr/src/php/ext/redis \
     && echo 'redis' >> /usr/src/php-available-exts \
     && docker-php-ext-install redis
 
+RUN mkdir -p /tmp/envs && touch /tmp/envs/env_file
 
-CMD ["/usr/local/bin/start-laravel"]
+CMD eval `cat /tmp/envs/env_file`; /usr/local/bin/start-laravel;
