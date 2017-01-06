@@ -76,13 +76,7 @@ $envToWrite = [
         return fallback('SQS_REGION', 'AWS_DEFAULT_REGION');
     },
     'SQS_QUEUE',
-
-    // Laravel requires only SQS prefix ( not queue name also. ).
-    'SQS_PREFIX' => function () {
-        $prefix = getenv('SQS_PREFIX');
-        return substr($prefix, 0,strrpos($prefix, '/'));
-    },
-
+    'SQS_QUEUE_NAME',
 
     'APP_ENV',
     'APP_DEBUG',
