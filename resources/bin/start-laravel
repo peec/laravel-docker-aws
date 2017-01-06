@@ -101,7 +101,7 @@ if [ -f /src/composer.lock ]; then
    /usr/sbin/cron
 
    echo "Starting supervisord and laravel worker"
-   service supervisor start
+   service supervisor restart
    /usr/bin/supervisorctl reread
    /usr/bin/supervisorctl update
    /usr/bin/supervisorctl start laravel-worker:*
